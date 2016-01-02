@@ -1,0 +1,19 @@
+
+ 1. show databases // To list all the databases
+ 2. show collections // To list all the collections
+
+
+Mongo commands for fetching the data:
+
+1. db.<collection_name>.find(); // To list all the data in the given collection
+2. db.<collection_name>.find().pretty(); // To list all the data in the given collection in pretty format
+3. db.<collection_name>.findOne();  // To find one item from the given collection
+4. db.<collection_name>.findOne(_id:<id>}); // To find one item from the given collection with the given id
+
+
+Mongo commands for modifying  or removingthe data:
+
+1. db.<collection_name>.insert(){<data>}; // To insert and item in the given collection
+2. db.<collection_name>.upsert({_id:<id>},{<data>}); // If an item exist with the given <id> then update othewise insert
+3. db.<collection_name>.remove({});  // To remove all items from the given collection
+4. db.<collection_name>.remove(_id:<id>}); // To remove one item from the given collection with the given id

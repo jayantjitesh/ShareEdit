@@ -107,6 +107,17 @@ Template.navbar.events({
    }
 })
 
+
+
+Template.docMeta.events({
+  "click .js-tog-private" : function(event){
+   
+    var doc={_id:Session.get("docid"), isPrivate:event.target.checked};
+    console.log(doc);
+    Meteor.call("updateDocPrivacy",doc);
+  }
+})
+
 } //End of isClient block
 
 if (Meteor.isServer) {
@@ -156,6 +167,18 @@ Meteor.methods({
     var id=Documents.insert(doc);
     console.log("addDoc method: got the id : "+id);
     return id;
+  },
+
+  updateDocPrivacy:function(doc){
+    
+    if (!doc){ return; } // not valid doc
+    else{
+     var realDoc= Documents.findOne({_id:doc._id, owner:this.userId});
+     if(realDoc){
+        realDoc.isPrivate=doc.isPrivate;
+        Documents.update({_id:doc._id},realDoc);
+     }
+    }
   }
 
 
