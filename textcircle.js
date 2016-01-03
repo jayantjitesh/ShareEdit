@@ -4,6 +4,9 @@ EditingUsers = new Mongo.Collection("editingUsers");
 
 if (Meteor.isClient) {
 
+  Meteor.subscribe("documents");
+  Meteor.subscribe("editingUsers");
+
 // find the first document in the Documents colleciton and send back its id
   Template.editor.helpers({
     docid:function(){
@@ -53,6 +56,16 @@ Template.editingUsers.helpers({
 Template.docMeta.helpers({
   document:function(){
     return Documents.findOne({_id : Session.get("docid")});
+  },
+  canEdit:function(){
+    var doc=Documents.findOne({_id : Session.get("docid")});
+
+    if(doc && doc.owner == Meteor.userId()){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 })
 
@@ -126,6 +139,19 @@ if (Meteor.isServer) {
     if (!Documents.findOne()){// no documents yet!
         Documents.insert({title:"my new document"});
     }
+  });
+
+
+  Meteor.publish("documents", function (){
+    return Documents.find({
+      $or : [
+        {isPrivate : false},
+        {owner : this.userId} 
+      ]})
+  });
+
+  Meteor.publish("editingUsers", function (){
+    return EditingUsers.find();
   });
 }
 
