@@ -1,8 +1,8 @@
 Meteor.methods({
-  addEditingUser:function(){
+  addEditingUser:function(docid){
     var doc, user, euser;
 
-    doc = Documents.findOne();
+    doc = Documents.findOne({_id:docid});
 
     if (!doc){ return; } // no documents return
     if (!this.userId){ return; } // no user logged in return

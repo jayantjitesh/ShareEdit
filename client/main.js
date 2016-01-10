@@ -21,7 +21,7 @@ Template.editor.helpers({
       editor.on("change", function(cm_editor, info){
         //console.log(cm_editor.getValue());
         $("#viewer_iframe").contents().find("html").html(cm_editor.getValue());
-        Meteor.call("addEditingUser");
+        Meteor.call("addEditingUser", Session.get("docid"));
       });        
     }
   }, 
@@ -31,7 +31,7 @@ Template.editingUsers.helpers({
 users:function(){
   var doc, currUsers, eusers;
 
-  doc = Documents.findOne();
+  doc = Documents.findOne({_id : Session.get("docid")});
   if (!doc){ return; } // no documents return
   eusers=EditingUsers.findOne({docId:doc._id});
   if (!eusers){ return; } // no editing users return
