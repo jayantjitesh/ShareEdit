@@ -9,3 +9,8 @@
 	resize: both;
 	width: 100%;
 }
+
+.light-border{
+	border: 1px solid gray;
+	width: 100%;
+}

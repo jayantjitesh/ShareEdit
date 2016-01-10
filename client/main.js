@@ -3,6 +3,29 @@
 Meteor.subscribe("documents");
 Meteor.subscribe("editingUsers");
 
+
+//Router code
+
+Router.configure({
+  layoutTemplate: 'ApplicationLayout'
+});
+
+Router.route('/', function () {
+  console.log("you hit /");
+  this.render("navbar", {to: "header"});
+  this.render("docList", {to: "main"});
+});
+
+Router.route('/documents/:_id', function () {
+  console.log("you hit /documents "+this.params._id);
+  Session.set("docid", this.params._id);
+  this.render("navbar", {to: "header"});
+  this.render("docItem", {to: "main"});
+});
+
+
+//End of Router code
+
 // find the first document in the Documents colleciton and send back its id
 Template.editor.helpers({
   docid:function(){
@@ -86,6 +109,11 @@ documents:function(){
 }
 })
 
+Template.docList.helpers({
+documents:function(){
+  return Documents.find({});
+}
+})
 
 
 ////////////////
